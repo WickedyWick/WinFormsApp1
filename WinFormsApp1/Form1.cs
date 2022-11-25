@@ -26,7 +26,7 @@ namespace WinFormsApp1
 
             Event _event = JsonSerializer.Deserialize<Event>(jsonString);
 
-            MessageBox.Show("BOOOOOOOOOOOOOOOOO");
+            MessageBox.Show("BOOOOOOOOOOOOOOOO");
 
         }
     }
