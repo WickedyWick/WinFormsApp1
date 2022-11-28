@@ -4,17 +4,17 @@ namespace Server.Models
 {
     public class Event
     {
+        [Key]
+        public int Id { get; set; }
         [Required]
-        public int EventId { get; set; }
-        [Required]
-        public string EventName { get; set; }
-        [Required]
-        public string StartTime { get; set; }
-        [Required]
-        public string EndTime { get; set; }
+        public string Name { get; set; }
 
+        [Required]
+        public DateTime StartTime { get; set; }
+        [Required]
+        public DateTime EndTime { get; set; }
         public int MaxSeats { get; set; }
-
-
+        [Required]
+        public int SeatsAvailable { get; set; } 
     }
 }

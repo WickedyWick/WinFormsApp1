@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Server.Data;
+using Server.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Adds Db context to the container and sets the connection string
-builder.Services.AddDbContext<EventDbContext>(
-    o => o.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+builder.Services.AddDbContextPool<EventDbContext>(
+    o => o.UseMySQL(builder.Configuration.GetConnectionString("MySqlServer") ?? "server = localhost; port = 3306; database = events; user = root; password =; Persist Security Info=false; "));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
