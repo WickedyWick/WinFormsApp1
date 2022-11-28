@@ -1,4 +1,6 @@
 using Client.Classes;
+using Client.Utils;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 namespace WinFormsApp1
 {
@@ -14,20 +16,43 @@ namespace WinFormsApp1
 
         }
 
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            string jsonString = @"{ 
+            string jsonString = @"[{ 
                 ""eventId"": 0 ,
                 ""eventName"": ""event name 0"",
                 ""startTime"": ""2022-02-01 10:00"",
                 ""endTime"": ""2022-02-01 12:00"",
                 ""maxSeats"": 10
-            }";
+            },
+            { 
+                ""eventId"": 1 ,
+                ""eventName"": ""event name 2"",
+                ""startTime"": ""2022-02-01 10:00"",
+                ""endTime"": ""2022-02-01 12:00"",
+                ""maxSeats"": 10
+            }]
+            ";
 
-            Event _event = JsonSerializer.Deserialize<Event>(jsonString);
+            // MessageBox.Show("BOOOOOOOOOOOOOOOO");
 
-            MessageBox.Show("BOOOOOOOOOOOOOOOOO");
+            DataGridViewManager dgvM = new DataGridViewManager(dgvEvents, bindingSource);
 
+            dgvM.LoadAllEvents();
+
+        }
+
+        private void dgvEvents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnOrder_Click(object sender, EventArgs e)
+        {
+            DataGridViewManager dgvM = new DataGridViewManager(dgvEvents, bindingSource);
+
+            dgvM.OrderEvent();
         }
     }
 }
