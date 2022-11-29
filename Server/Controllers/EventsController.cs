@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Server.ControllerMethods;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -13,9 +15,10 @@ namespace Server.Controllers
     {
         // GET: api/<EventsController>
         [HttpGet]
-        public string Get()
+        public async Task<IActionResult> Get()
         {
 
+            
             string respString = @"[{ 
                 ""eventId"": 0 ,
                 ""eventName"": ""event name 0"",
@@ -38,9 +41,15 @@ namespace Server.Controllers
                 ""maxSeats"": null
             }]
             ";
-            // var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            // response.Content = new StringContent(respString, Encoding.UTF8, "application/json");
-            return respString;
+            
+            // Ideally some kind of handler would be best here
+            Tuple<HttpStatusCode, string?> res = await EventMethods.GetAllEvents();
+            if (res.Item1 == HttpStatusCode.OK)
+                return Ok(res.Item2);
+            else if (res.Item1 == HttpStatusCode.NotFound)
+                return NotFound();
+
+            return Problem();
         }
 
         // GET api/<EventsController>/5

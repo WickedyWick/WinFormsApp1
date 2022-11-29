@@ -22,5 +22,28 @@ namespace Client.Utils
             }
             return false;
         }
+
+        public static bool HandleGetAllEvents(HttpStatusCode statusCode)
+        {
+            if (statusCode != HttpStatusCode.OK)
+            {
+                if (statusCode == HttpStatusCode.NotFound)
+                {
+                    MessageBoxWrapper.InformationalMessage(
+                        "No events found!",
+                        "No events found!"
+                    );
+                    return false;
+                }
+
+                MessageBoxWrapper.ErrorMessage(
+                    "Error during loading events!",
+                    "There was an error during loading events, please try again"
+                );
+                return false;
+
+            } 
+            return true;
+        }
     }
 }

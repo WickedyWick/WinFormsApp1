@@ -17,5 +17,10 @@ namespace Client.Utils
         {
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.None);
         }
+
+        public static void InformationalMessage(string message, string title)
+        {
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

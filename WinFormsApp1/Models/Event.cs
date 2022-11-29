@@ -10,16 +10,16 @@ namespace Client.Classes
 {
     internal class Event
     {
-        [JsonPropertyName("eventId")]
+        [JsonPropertyName("id")]
         public int EventId { get; set; }
-        [JsonPropertyName("eventName")]
+        [JsonPropertyName("name")]
         public string EventName { get; set; }
         [JsonPropertyName("startTime")]
         public string StartTime { get; set; }
         [JsonPropertyName("endTime")]
         public string EndTime { get; set; }
-        [JsonPropertyName("maxSeats")]
-        public int? MaxSeats { get; set; }
+        [JsonPropertyName("seatsAvailable")]
+        public int? SeatsAvailable { get; set; }
 
     }
 }
