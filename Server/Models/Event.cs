@@ -13,8 +13,7 @@ namespace Server.Models
         public DateTime StartTime { get; set; }
         [Required]
         public DateTime EndTime { get; set; }
-        public int MaxSeats { get; set; }
         [Required]
-        public int SeatsAvailable { get; set; } 
+        public int? SeatsAvailable { get; set; } 
     }
 }

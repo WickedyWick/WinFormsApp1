@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 namespace Client.Utils
 {
      internal class APIConsumer
@@ -20,13 +20,18 @@ namespace Client.Utils
             APIRoute = System.Configuration.ConfigurationManager.AppSettings["APIRoute"] ?? "http:localhost:7241/api";
             APIClient = new HttpClient();
             APIClient.DefaultRequestHeaders.Accept.Clear();
-            
+           // APIClient.DefaultRequestHeaders.Accept.Add(
+             //   new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/json") );
         }
 
-        public static async Task<List<Event>> GetAllEvents()
+        public static async Task<List<Event>?> GetAllEvents()
         {
-            var events = await APIClient.GetFromJsonAsync<List<Event>>($"{APIRoute}/Events");
-            return events;
+            HttpResponseMessage resp = await APIClient.GetAsync($"{APIRoute}/Events");
+
+            bool isSuccessful = APIResultHandler.HandleGetAllEvents(resp.StatusCode);
+            if (!isSuccessful)
+                return null;
+            return await resp.Content.ReadFromJsonAsync<List<Event>>();
         }
 
         public static async Task<bool> OrderEvent(int userId, int eventId)

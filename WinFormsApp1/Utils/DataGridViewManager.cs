@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Net;
@@ -24,7 +25,9 @@ namespace Client.Utils
         {
             ConfigureGridViewAndGenerateColumns();
 
-            List<Event>  events = await APIConsumer.GetAllEvents();
+            List<Event>? events = await APIConsumer.GetAllEvents();
+            if (events == null)
+                return;
             foreach (Event e in events)
             {
                 bs.Add(e);
@@ -122,8 +125,8 @@ namespace Client.Utils
             dgv.Columns.Add(column3);
 
             DataGridViewColumn column4 = new DataGridViewTextBoxColumn();
-            column4.DataPropertyName = "MaxSeats";
-            column4.Name = "Max Seats";
+            column4.DataPropertyName = "SeatsAvailable";
+            column4.Name = "Seats Available";
             dgv.Columns.Add(column4);
         }
 
