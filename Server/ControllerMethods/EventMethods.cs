@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Server.Database;
+using Server.Models;
 using Server.Utils;
 using System.Data;
 using System.Net;
@@ -17,6 +18,12 @@ namespace Server.ControllerMethods
             // ! tells compiler that I am sure this won't be null check 
             string jsonString = await ObjectToJSONParser.DataTableToJSONString(data.Item2!);
             return new Tuple<HttpStatusCode, string?>(data.Item1, jsonString);
+        }
+
+        public static async Task<HttpStatusCode> CreateOrder(EventOrder eventOrder)
+        {
+            HttpStatusCode statusCode = await MYSQL.CreateOrder(eventOrder);
+            return statusCode;
         }
     }
 }

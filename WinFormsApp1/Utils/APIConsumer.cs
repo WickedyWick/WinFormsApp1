@@ -34,22 +34,17 @@ namespace Client.Utils
             return await resp.Content.ReadFromJsonAsync<List<Event>>();
         }
 
-        public static async Task<bool> OrderEvent(int userId, int eventId)
+        public static async Task OrderEvent(int userId, int eventId, int ticketAmount)
         {
-            using HttpResponseMessage response = await APIClient.PostAsJsonAsync(
+            HttpResponseMessage response = await APIClient.PostAsJsonAsync(
                 $"{APIRoute}/Events",
-                new EventOrder(userId, eventId)
+                new EventOrder(userId, eventId, ticketAmount)
             );
-
-            // Throws Exception when success is false, should be handled
-            response.EnsureSuccessStatusCode();
+     
             HttpStatusCode statusCode = response.StatusCode;
 
-            // No need to send messages from the server as you can predict with statusCOde
-            //string respMessage = await response.Content.ReadAsStringAsync();
+            APIResultHandler.HandleOrderEventResult(statusCode);
 
-            bool isSuccessfulOrder = APIResultHandler.HandleOrderEventResult(statusCode);
-            return isSuccessfulOrder;
         }
      }
 }
