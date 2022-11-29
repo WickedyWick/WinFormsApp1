@@ -12,7 +12,7 @@ namespace Client.Utils
         {
             // return false or true depending if result has been successfull or not!
             
-            if (statusCode == HttpStatusCode.OK)
+            if (statusCode == HttpStatusCode.Created)
             {
                 MessageBoxWrapper.SuccessMessage(
                     "Successful order!",
@@ -20,6 +20,10 @@ namespace Client.Utils
                 );
                 return true;
             }
+            MessageBoxWrapper.ErrorMessage(
+                "There was an error during ordering tickets",
+                "Error during ordering tickets"
+            ) ;
             return false;
         }
 

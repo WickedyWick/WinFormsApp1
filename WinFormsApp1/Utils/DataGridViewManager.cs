@@ -15,23 +15,25 @@ namespace Client.Utils
     internal class DataGridViewManager
     {
         private DataGridView dgv;
+        private NumericUpDown nup;
         private BindingSource bs;
-        public DataGridViewManager(DataGridView dgv, BindingSource bs) {
+        public DataGridViewManager(DataGridView dgv, BindingSource bs, NumericUpDown nup) {
             this.dgv = dgv;
+            this.nup = nup;
             this.bs = bs;
         }
 
         public async void LoadAllEvents()
         {
-            ConfigureGridViewAndGenerateColumns();
-
+            // Lazy way of doing it?
+           // BindingSource bs = new BindingSource();
+            
             List<Event>? events = await APIConsumer.GetAllEvents();
             if (events == null)
                 return;
-            foreach (Event e in events)
-            {
-                bs.Add(e);
-            }
+            bs.DataSource= events;
+
+            
         }
 
         public async void OrderEvent()
@@ -43,11 +45,10 @@ namespace Client.Utils
                 // simulate userId
                 int userId = 1;
                 int orderId = Convert.ToInt32(checkResultTuple.Item2);
-                bool result = await APIConsumer.OrderEvent(userId, orderId);
-                if (result)
-                {
-                    // update dgv
-                }
+                int ticketAmount = Convert.ToInt32(nup.Value);
+                await APIConsumer.OrderEvent(userId, orderId, ticketAmount);
+                LoadAllEvents();
+                
             }
         }
 
@@ -55,7 +56,7 @@ namespace Client.Utils
         {
             Int32 selectedRowCount = dgv.Rows.GetRowCount(DataGridViewElementStates.Selected);
 
-            if (selectedRowCount != 0)
+            if (selectedRowCount != 1)
             {
                 MessageBoxWrapper.ErrorMessage(
                     "Its only possible to order one event at the time!",
@@ -80,6 +81,13 @@ namespace Client.Utils
                         );
 
                         return new Tuple<bool, int?>(false, null);
+                    } else if (maxSeats < Convert.ToInt32(nup.Value))
+                    {
+                        MessageBoxWrapper.ErrorMessage(
+                            $"Amount of tickets you want to order is higher than number of tickets available",
+                            "Order not allowed!"
+                        );
+                        return new Tuple<bool, int?>(false, null);
                     }
 
                 } catch(NullReferenceException)
@@ -96,39 +104,7 @@ namespace Client.Utils
             return new Tuple<bool, int?>(id > -1, id);
 
         }
-        private void ConfigureGridViewAndGenerateColumns()
-        {
-            // Configuring gridview
-            dgv.AutoGenerateColumns = false;
-            dgv.AutoSize = true;
-            dgv.DataSource = bs;
-
-            // Generating columns
-            DataGridViewColumn column = new DataGridViewTextBoxColumn();
-            column.DataPropertyName = "EventId";
-            column.Name = "Event Id";
-            dgv.Columns.Add(column);
-
-            DataGridViewColumn column1 = new DataGridViewTextBoxColumn();
-            column1.DataPropertyName = "EventName";
-            column1.Name = "Event Name";
-            dgv.Columns.Add(column1);
-
-            DataGridViewColumn column2 = new DataGridViewTextBoxColumn();
-            column2.DataPropertyName = "StartTime";
-            column2.Name = "Start Time";
-            dgv.Columns.Add(column2);
-
-            DataGridViewColumn column3 = new DataGridViewTextBoxColumn();
-            column3.DataPropertyName = "EndTime";
-            column3.Name = "End Time";
-            dgv.Columns.Add(column3);
-
-            DataGridViewColumn column4 = new DataGridViewTextBoxColumn();
-            column4.DataPropertyName = "SeatsAvailable";
-            column4.Name = "Seats Available";
-            dgv.Columns.Add(column4);
-        }
+        
 
 
     }

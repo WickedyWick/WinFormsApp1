@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Encodings;
+using Server.Models;
+using Server.Database;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Server.Controllers
@@ -17,30 +19,6 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-
-            
-            string respString = @"[{ 
-                ""eventId"": 0 ,
-                ""eventName"": ""event name 0"",
-                ""startTime"": ""2022-02-01 10:00"",
-                ""endTime"": ""2022-02-01 12:00"",
-                ""maxSeats"": 10
-            },
-{ 
-                ""eventId"": 1 ,
-                ""eventName"": ""event name 2"",
-                ""startTime"": ""2022-02-01 10:00"",
-                ""endTime"": ""2022-02-01 12:00"",
-                ""maxSeats"": 10
-            },
-            { 
-                ""eventId"": 2 ,
-                ""eventName"": ""event name 2"",
-                ""startTime"": ""2022-02-01 10:00"",
-                ""endTime"": ""2022-02-01 12:00"",
-                ""maxSeats"": null
-            }]
-            ";
             
             // Ideally some kind of handler would be best here
             Tuple<HttpStatusCode, string?> res = await EventMethods.GetAllEvents();
@@ -61,9 +39,21 @@ namespace Server.Controllers
 
         // POST api/<EventsController>
         [HttpPost]
-        public void Post([FromBody] int eventId, int userId)
+        public async Task<IActionResult> Post([FromBody] EventOrder eventOrder)
         {
-            Console.WriteLine(eventId.ToString(), userId.ToString());
+            HttpStatusCode statusCode = await EventMethods.CreateOrder(eventOrder);
+            if (statusCode == HttpStatusCode.Created)
+            {
+                // Rethink this
+                return Created("/Orders/{id}", null);
+                    
+            } else if (statusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest();
+            }
+
+            return Problem();
+
         }
 
         // PUT api/<EventsController>/5

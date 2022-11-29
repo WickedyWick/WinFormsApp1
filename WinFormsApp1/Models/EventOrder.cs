@@ -9,14 +9,17 @@ namespace Client.Models
 {
     internal class EventOrder
     {
-        [JsonPropertyName("üserId")]
+        [JsonPropertyName("userId")]
         public int UserId { get; set; }
         [JsonPropertyName("eventId")]
         public int EventId { get; set; }
+        [JsonPropertyName("numOfTickets")]
+        public int NumOfTickets { get; set; }
 
-        public EventOrder(int userId, int eventId) { 
+        public EventOrder(int userId, int eventId, int numOfTickets) { 
             UserId = userId;
             EventId = eventId;
+            NumOfTickets = numOfTickets;
         } 
     }
 }

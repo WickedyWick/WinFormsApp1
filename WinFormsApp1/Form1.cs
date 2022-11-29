@@ -19,26 +19,9 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string jsonString = @"[{ 
-                ""eventId"": 0 ,
-                ""eventName"": ""event name 0"",
-                ""startTime"": ""2022-02-01 10:00"",
-                ""endTime"": ""2022-02-01 12:00"",
-                ""maxSeats"": 10
-            },
-            { 
-                ""eventId"": 1 ,
-                ""eventName"": ""event name 2"",
-                ""startTime"": ""2022-02-01 10:00"",
-                ""endTime"": ""2022-02-01 12:00"",
-                ""maxSeats"": 10
-            }]
-            ";
 
-            // MessageBox.Show("BOOOOOOOOOOOOOOOO");
-
-            DataGridViewManager dgvM = new DataGridViewManager(dgvEvents, bindingSource);
-
+            DataGridViewManager dgvM = new DataGridViewManager(dgvEvents, bindingSource1, nupNumOfTickets);
+            ConfigureGridViewAndGenerateColumns();
             dgvM.LoadAllEvents();
 
         }
@@ -50,9 +33,43 @@ namespace WinFormsApp1
 
         private void btnOrder_Click(object sender, EventArgs e)
         {
-            DataGridViewManager dgvM = new DataGridViewManager(dgvEvents, bindingSource);
+            DataGridViewManager dgvM = new DataGridViewManager(dgvEvents,bindingSource1, nupNumOfTickets);
 
-            dgvM.OrderEvent();
+             dgvM.OrderEvent();
+        }
+
+        private void ConfigureGridViewAndGenerateColumns()
+        {
+            // Configuring gridview
+            dgvEvents.AutoGenerateColumns = false;
+            dgvEvents.AutoSize = true;
+            dgvEvents.DataSource = bindingSource1;
+            // dgv.Refresh();
+            // Generating columns
+            DataGridViewColumn column = new DataGridViewTextBoxColumn();
+            column.DataPropertyName = "EventId";
+            column.Name = "Event Id";
+            dgvEvents.Columns.Add(column);
+
+            DataGridViewColumn column1 = new DataGridViewTextBoxColumn();
+            column1.DataPropertyName = "EventName";
+            column1.Name = "Event Name";
+            dgvEvents.Columns.Add(column1);
+
+            DataGridViewColumn column2 = new DataGridViewTextBoxColumn();
+            column2.DataPropertyName = "StartTime";
+            column2.Name = "Start Time";
+            dgvEvents.Columns.Add(column2);
+
+            DataGridViewColumn column3 = new DataGridViewTextBoxColumn();
+            column3.DataPropertyName = "EndTime";
+            column3.Name = "End Time";
+            dgvEvents.Columns.Add(column3);
+
+            DataGridViewColumn column4 = new DataGridViewTextBoxColumn();
+            column4.DataPropertyName = "SeatsAvailable";
+            column4.Name = "Seats Available";
+            dgvEvents.Columns.Add(column4);
         }
     }
 }
