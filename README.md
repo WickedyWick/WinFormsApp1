@@ -42,5 +42,5 @@ in case i dont have to return field with null property i would use IFNULL to set
     Ticket list overview for a user
     Refund option
     Tests for FE and BE 
-
+    Unique constraint for eventname + starttime?
 
