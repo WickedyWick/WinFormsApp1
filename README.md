@@ -1,4 +1,4 @@
-t# Ticketing service
+# Ticketing service
 
 Pretending that user is authenitacted and logged in
 
@@ -16,8 +16,6 @@ Have my tickets button?
 
 In case if high traffic is expected implement queues etc
 
-current to do is to fix damn EF and MYSQL compatibility and things will be easier
-
 Ideally middleware would be needed
 # MYSQL
 create table events(id int AUTO_INCREMENT PRIMARY KEY, name varchar(60) NOT NULL, startTime DATETIME NOT NULL, endTime DATETIME NOT NULL, seatsAvailable int DEFAULT NULL);
@@ -30,4 +28,19 @@ insert into users values(default, 'username1');
 
 ## Self ntoes
 in case i dont have to return field with null property i would use IFNULL to set to 0 on database layer
+
+## TODO
+    Middleware
+    Better error handling ( general error handler on the backend?)
+    Sentry for better error logging and isigths
+    UI/UX overhaul
+    Possibly switch to EF Core on the backend
+    API versioning
+    Database connection pooling
+    Admin panel to be able to create events
+    API authentification and autorization
+    Ticket list overview for a user
+    Refund option
+    Tests for FE and BE 
+
 

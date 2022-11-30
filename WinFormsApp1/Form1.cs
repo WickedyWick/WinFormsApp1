@@ -71,5 +71,12 @@ namespace WinFormsApp1
             column4.Name = "Seats Available";
             dgvEvents.Columns.Add(column4);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DataGridViewManager dgvM = new DataGridViewManager(dgvEvents, bindingSource1, nupNumOfTickets);
+            dgvM.LoadAllEvents();
+
+        }
     }
 }

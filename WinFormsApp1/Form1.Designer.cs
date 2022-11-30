@@ -33,10 +33,10 @@
             this.btnOrder = new System.Windows.Forms.Button();
             this.nupNumOfTickets = new System.Windows.Forms.NumericUpDown();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupNumOfTickets)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
-
             this.SuspendLayout();
             // 
             // dgvEvents
@@ -78,11 +78,22 @@
             0,
             0});
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(808, 90);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(94, 29);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Refresh";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(914, 600);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.nupNumOfTickets);
             this.Controls.Add(this.btnOrder);
             this.Controls.Add(this.dgvEvents);
@@ -102,5 +113,6 @@
         private Button btnOrder;
         private NumericUpDown nupNumOfTickets;
         private BindingSource bindingSource1;
+        private Button button1;
     }
 }
